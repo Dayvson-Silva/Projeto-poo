@@ -26,32 +26,46 @@ class GerenciadorReservas:
 
 def main(page: ft.Page):
     page.title = "Hotel do Biu"
-    page.scroll = "auto"
+    page.vertical_alignment = ft.MainAxisAlignment.START
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+
 
     gerenciador = GerenciadorReservas()
 
-    # Widgets para capturar dados
-    nome_input = ft.TextField(label="Nome")
-    cpf_input = ft.TextField(label="CPF")
-    telefone_input = ft.TextField(label="Telefone")
-    data_entrada_input = ft.TextField(label="Data de Entrada (DD/MM/AAAA)")
-    data_saida_input = ft.TextField(label="Data de Saída (DD/MM/AAAA)")
+    nome_input = ft.TextField(label="Nome",width=350)
+    cpf_input = ft.TextField(label="CPF",width=350)
+    telefone_input = ft.TextField(label="Telefone",width=350)
+    data_entrada_input = ft.TextField(label="Data de Entrada (DD/MM/AAAA)",width=350)
+    data_saida_input = ft.TextField(label="Data de Saída (DD/MM/AAAA)",width=350)
+    
 
-    # Quarto selecionado
+
+    
     quarto_selecionado = ft.Dropdown(
         label="Escolha o quarto",
         options=[
-            ft.dropdown.Option("Biu Normal"),
-            ft.dropdown.Option("Biu Mega"),
-            ft.dropdown.Option("Biu Premium"),
-            ft.dropdown.Option("Biu Plus"),
-        ],
+            ft.dropdown.Option("Biu Normal R$ 200,00"),
+            ft.dropdown.Option("Biu Mega R$ 400,00 "),
+            ft.dropdown.Option("Biu Premium R$ 650,00"),
+            ft.dropdown.Option("Biu Plus R$ 1000,00"),
+        ],width=350
     )
 
-    # Lista de reservas
     lista_reservas = ft.ListView(expand=True, spacing=10)
-
-    # Função para adicionar reserva
+    
+# AINDA FALTA FAZER
+    def calcular_valor_total(e):
+    
+        precos = {
+            "Biu Normal": 200.00,
+            "Biu Mega": 400.00,
+            "Biu Premium": 650.00,
+            "Biu Plus": 1000.00,
+        }
+    
+    
+        
+  
     def adicionar_reserva(e):
         if (
             nome_input.value
@@ -72,7 +86,7 @@ def main(page: ft.Page):
             )
             gerenciador.adicionar_reserva(reserva)
 
-            # Exibe a reserva na lista
+            
             lista_reservas.controls.append(
                 ft.Text(
                     f"Reserva para {cliente.nome} - Quarto: {quarto_selecionado.value} "
@@ -81,7 +95,7 @@ def main(page: ft.Page):
             )
             lista_reservas.update()
 
-            # Limpa os campos
+            
             nome_input.value = ""
             cpf_input.value = ""
             telefone_input.value = ""
@@ -96,11 +110,11 @@ def main(page: ft.Page):
             page.snack_bar.open = True
             page.update()
 
-    # Layout principal
+    
     page.add(
         ft.Column(
             [
-                ft.Text("Hotel do Biu - Sistema de Reservas", size=20, weight="bold"),
+                ft.Text("Hotel do Biu - Sistema de Reservas", size=22, weight="bold"),
                 nome_input,
                 cpf_input,
                 telefone_input,
@@ -109,12 +123,13 @@ def main(page: ft.Page):
                 quarto_selecionado,
                 ft.ElevatedButton("Adicionar Reserva", on_click=adicionar_reserva),
                 ft.Divider(),
-                ft.Text("Reservas cadastradas:", size=16, weight="bold"),
+                ft.Text("Reservas cadastradas:", size=18, weight="bold",bgcolor=ft.colors.GREEN, color=ft.colors.WHITE,),
                 lista_reservas,
             ],
             expand=True,
             spacing=20,
         )
+        
     )
 
 
